@@ -7,6 +7,7 @@ app.controller("HomeController", [
   function($scope, $location, $route, Journey, Owner) {
     var regex = /users\/(.)#/;
     var user_id = regex.exec($location.absUrl());
+    console.log("user id is: " + user_id);
 
     var owner = Owner.check( {id: user_id[1]} );
     owner.$promise.then( function(response) {

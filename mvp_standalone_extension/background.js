@@ -1,6 +1,7 @@
 // Listens for a message from the bin object
 chrome.runtime.onMessage.addListener(
   function(request, sender, sendResponse) {
+    console.log("Got to the background!");
     console.log(sender.tab ?
                 "from a content script:" + sender.tab.url :
                 "from the extension");
@@ -24,7 +25,6 @@ chrome.runtime.onMessage.addListener(
 function saveSnippet(request, sender, sendResponse) {
       var user_token = request.user_token;
       var params = request.params;
-      // return "This function doesn't do anything."
       var request = $.ajax({
                       url: "http://localhost:3000/api/snippets",
                       method: "POST",
@@ -33,18 +33,15 @@ function saveSnippet(request, sender, sendResponse) {
                     });
 
       request.fail(function(response) {
-        $("#saveMessage").text('Error saving: ');
-        sendResponse({farewell: "goodbye, message complete!"});
+        sendResponse({response: response});
         console.log("Something went wrong.");
         console.log(response);
       });
 
       request.done(function (response) {
-        sendResponse({farewell: "goodbye, message complete!"});
-        $("#saveMessage").text("Saved!");
+        sendResponse({response: response});
         console.log("Saved!");
         console.log(response);
-        // window.setTimeout(window.close, 1000);
       });
 
 }

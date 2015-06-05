@@ -36,7 +36,7 @@
     </div>
     </nav> <!-- End of sidebar -->
   <div class="user-home-head col-xs-12 col-lg-8 visible-lg">
-    <h2 class="page-header row-head row visible-lg">NOTES FOR {{category.title | uppercase}}</h2>
+    <h2 class="page-header row-head row visible-lg">PAGES FOR {{category.title | uppercase}}</h2>
   </div>
     <!-- <img id="plus-pic" src="plusequals.png">  -->
     <div class="notes-container-global col-lg-8 col-xs-12 scroll-area" data-spy="scroll">
@@ -67,8 +67,9 @@
             <div class="right-context-menu" >
               <ul class="note-list row">
                 <li class="cell-list context-list delete-button col-xs-12" ng-click="deleteNote(note)">Delete</li>
-                <li class="cell-list context-list share-button col-xs-12" >Share</li>
-                <li class="cell-list context-list update-button col-xs-12">Update</li>
+                <li class="cell-list context-list public-button col-xs-12" >Public</li>
+                <li class="cell-list context-list add-snip-button col-xs-12">
+                <button ng-click="showSnipForm(note)" ng-show="isOwner">Add Snippet</button></li>
               </ul>
             </div>
             <!-- END HIDDEN NOTE SHIT TEEHEEHEEHEE -->
@@ -108,17 +109,9 @@
           <div class="show-snippets-container row">
             <div class="single-snippet row" ng-repeat="snippet in note.snippets | orderBy:'description'" id="snip{{snippet.id}}" >
               <div class="single-snippet-content" ng-show="!toggle">
-                <h4 class="note-header">Description:</h4>
-                <p class="note-text">{{snippet.description}}</p>
-                <h4 class="note-header">Text:</h4>
-
-                <p class="note-text" ng-bind-html="to_trusted((snippet.text | youtube))">
-                  <!-- {{snippet.text | youtube}} -->
-                </p>
-
-                <div class="dropdown">
+                 <div class="dropdown">
                   <a href="{{snippet.web_url}}" target="_blank">
-                    <button ng-show="!validUrl(snippet)" type="button" class="btn" >Visit Site</button>
+                    <button ng-show="!validUrl(snippet)" type="button" class="btn center-block" >Visit Site</button>
                   </a>
                   <span class="invalid-url" ng-show="!validUrl(snippet)">Can't cache site</span>
                   <div class="dropdown btn-group" ng-show="validUrl(snippet)">
@@ -136,13 +129,26 @@
                     </ul>
                   </div>
                 </div>
+                <h4 class="note-header">Description:</h4>
+                <p class="note-text">{{snippet.description}}</p>
+                <h4 class="note-header">Text:</h4>
+
+                <p class="note-text" ng-bind-html="to_trusted((snippet.text | youtube))">
+                  <!-- {{snippet.text | youtube}} -->
+                </p>
+
+
 
                 <br><br>
 
-                <p class="snip-date">Snipped on: {{snippet.created_at | date:'MMM d, yyyy'}}</p>
-
-                <button class="edit-button col-xs-12 lighter-edit" ng-click="toggle = !toggle" ng-show="isOwner">Edit Snippet</button>
-                <button class="edit-button col-xs-12 lighter-edit" ng-click="deleteSnippet(snippet)" ng-show="isOwner">Delete Snippet</button>
+                
+              <div class="note-button-container row">
+               <p class="snip-date col-xs-6">Snipped on: {{snippet.created_at | date:'MMM d, yyyy'}}</p>
+                <button class="edit-button col-xs-1 lighter-edit" id="edit-snip" ng-click="toggle = !toggle" ng-show="isOwner">
+                Edit Snippet</button>
+                <button class="edit-button col-xs-1 lighter-edit" id="delete-snip" ng-click="deleteSnippet(snippet)" ng-show="isOwner">
+                Delete Snippet</button>
+                </div>
               </div>
 
               <div class="form-container-edit" ng-show="toggle">
@@ -163,7 +169,7 @@
               </div> <!-- End of single snip div -->
 
 
-              <button class="edit-button col-xs-12" ng-click="showSnipForm(note)" ng-show="isOwner">Add Snippet</button>
+              
               <div class="form-container-edit">
                 <div ng-show="visibleSnipForm[{{note.id}}]" class="snipForm">
                   <form ng-submit="saveSnip(note)">

@@ -1,3 +1,8 @@
+$navbar-default-bg: #0B516F;
+$go-time-green: #2CB21D;
+$link-blue: rgb(90, 204, 237);
+$link-blue-dark: #337AB7;
+
 .notes-container-global
 {
     z-index: 3;
@@ -32,6 +37,7 @@
     margin-left: 2em;
     padding: 1em;
     padding-left: 0;
+    padding-right: 0;
 
     background-color: #4c4c4c;
 }
@@ -43,7 +49,7 @@
     padding-bottom: 3em;
 }
 
-.single-snippet-content
+.single-snippet
 
 
 
@@ -188,7 +194,7 @@
     input[type='submit']:hover
     {
         color: #fff;
-        background-color: #95ea78;
+        background-color: $go-time-green;
     }
     input:focus
     {
@@ -228,6 +234,9 @@ div.single-snippet {
   margin-right: 2em;
   margin-bottom: 3em;
   border-bottom: 1px solid #999999;
+  .note-header {
+    margin-left: 0;
+  }
 }
 
 .snippet-buttons {
@@ -264,7 +273,7 @@ div.single-snippet {
       color: red;
     }
 }
-  
+
 }
 
 

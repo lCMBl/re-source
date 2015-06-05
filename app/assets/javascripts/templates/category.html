@@ -41,7 +41,7 @@
     <!-- <img id="plus-pic" src="plusequals.png">  -->
     <div class="notes-container-global col-lg-8 col-xs-12 scroll-area" data-spy="scroll">
 
-      <div ng-show="notes.length === 0" style="color:white;">
+      <div ng-show="notes.length === 0" class = "default-content">
         <h3>Pages</h3>
         <p>A Page will contain the content you found useful-- providing intuitive access for futrue reflection.</p>
         <h5>A “Page” consists of:</h5>
@@ -57,6 +57,17 @@
             </ul>
           </li>
         </ul>
+
+        <h4 ng-click="displayForm()" class="cell-list col-xs-12 cat-new-button" ng-show="isOwner" ng-class="{active: form-show}"> New Page</h4>
+
+        <div class="download-extension-container">
+          <p class="download-extension-text" style="color: #999">
+            For full functionality, download the <strong>Re:Source Snippet Saver</strong>.
+          </p>
+          <form action="https://chrome.google.com/webstore/detail/resource-snippet-saver/pejlmdojlceajdfmajpmanmidmkekmmm">
+            <input class="download-extension-submit btn btn-primary" type="submit" value="Download Now">
+          </form>
+        </div>
       </div>
 
 
@@ -67,9 +78,16 @@
             <div class="right-context-menu" >
               <ul class="note-list row">
                 <li class="cell-list context-list delete-button col-xs-12" ng-click="deleteNote(note)">Delete</li>
-                <li class="cell-list context-list public-button col-xs-12" >Public</li>
-                <li class="cell-list context-list add-snip-button col-xs-12">
-                <button ng-click="showSnipForm(note)" ng-show="isOwner">Add Snippet</button></li>
+                <li class="cell-list context-list public-button col-xs-12" ng-click="toggleMenu(note.id)">Public</li>
+                <li class="cell-list context-list add-snip-button col-xs-12" ng-click="toggleMenu(note.id)">
+                <button ng-click="showNoteForm(note)" ng-show="isOwner" ng-class="{active: form-show}">
+                Edit Note</button>
+                </li>
+                <li class="cell-list context-list add-snip-button col-xs-12" id="add-snip" du-scrollspy="add-snippet-form" ng-click="toggleMenu(note.id)">
+                  <button ng-click="showSnipForm(note)" ng-show="isOwner" du-smooth-scroll="add-snippet-form" data-toggle="tooltip">
+                  Add Snippet</button>
+                </li>
+
               </ul>
             </div>
             <!-- END HIDDEN NOTE SHIT TEEHEEHEEHEE -->
@@ -84,7 +102,7 @@
               <p class="note-text"> {{note.synopsis}}</p>
               <h4 class="note-header">Code sample: </h4>
             <pre class="note-code" ng-bind-html="to_trusted((note.code|pretty))"></pre>
-            <button class="edit-button col-xs-12" ng-click="showNoteForm(note)" ng-show="isOwner" ng-class="{active: form-show}">Edit Note</button>
+
             </div>
           </div>
 
@@ -141,7 +159,7 @@
 
                 <br><br>
 
-                
+
               <div class="note-button-container row">
                <p class="snip-date col-xs-6">Snipped on: {{snippet.created_at | date:'MMM d, yyyy'}}</p>
                 <button class="edit-button col-xs-1 lighter-edit" id="edit-snip" ng-click="toggle = !toggle" ng-show="isOwner">
@@ -151,7 +169,7 @@
                 </div>
               </div>
 
-              <div class="form-container-edit" ng-show="toggle">
+              <div class="form-container-edit" id="add-snippet-form" ng-show="toggle"  data-target="#add-snip" data-offset="0">
                 <form ng-submit="saveSnipEdit(note, snippet)">
                   <h3 class="form-header col-xs-12 col-pull-12"> Snippet description</h3>
                   <input class="col-xs-12" type="text" ng-model="snippet.description">
@@ -169,7 +187,7 @@
               </div> <!-- End of single snip div -->
 
 
-              
+
               <div class="form-container-edit">
                 <div ng-show="visibleSnipForm[{{note.id}}]" class="snipForm">
                   <form ng-submit="saveSnip(note)">
@@ -187,18 +205,14 @@
               </div>
 
               <div class="unassigned-snippets-container col-xs-12" ng-show="isOwner && unassignedSnippets.length > 0">
-                <h4 class="note-title">Unassigned Snippets:</h4>
-                <div class="single-unassigned-snippet" ng-repeat="snippet in unassignedSnippets | orderBy:'created_at'">
-                  <p>{{snippet.text | limitTo:140}}...
-                    <span>
-                      {{snippet.created_at | date:'EEE, MMM d'}}
-                    </span>
-                    <span>
+                <h4 class="note-title" id="unassigned-snip-title">Unassigned Snippets:</h4>
+                <div class="single-unassigned-snippet row" ng-repeat="snippet in unassignedSnippets | orderBy:'created_at'">
+                  <p class="unassigned-text col-xs-10">{{snippet.text | limitTo:140}}...</p>
+                    <span class="unassigned-button col-xs-2">
                       <button ng-click="addToNote(note, snippet)">Add to Note</button>
                     </span>
-                  </p>
+                    <span class="unassigned-date col-xs-12"><p>{{snippet.created_at | date:'EEE, MMM d'}}</p></span>
                 </div>
-                <hr>
               </div>
 
               </div> <!-- End of show snippets div -->

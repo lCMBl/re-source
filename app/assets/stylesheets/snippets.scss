@@ -1,4 +1,9 @@
 $go-time-green: #2CB21D;
+$navbar-default-bg: #0B516F;
+$go-time-green: #2CB21D;
+$link-blue: rgb(90, 204, 237);
+$link-blue-dark: #337AB7;
+
 .snip-date {
   float: left;
   font-weight: 300;
@@ -8,12 +13,13 @@ $go-time-green: #2CB21D;
 }
 
 .unassigned-snippets-container {
-  .single-unassigned-snippet {
-    margin-left: 3em;
-    text-align: justify;
+  li.single-unassigned-snippet {
+    height: 5em;
     color: white;
     font-weight: 100;
-    background-color: #444444;
+    p {display: inline-block;}
+    margin: 1em;
+    background-color: #333333;
     padding-top: 1em;
     padding-bottom: 1em;
     border-radius: .5em;
@@ -23,10 +29,11 @@ $go-time-green: #2CB21D;
       button {
         background: none;
         border: none;
+        float: right;
         &:hover {
           color: $go-time-green;
         }
-  
+
       }
     }
     .unassigned-date {
@@ -35,10 +42,41 @@ $go-time-green: #2CB21D;
       color: #888888;
     }
   }
-  
+
 }
 
 #unassigned-snip-title {
   border: none;
   margin-bottom: 1em;
+}
+
+form.add-snip-container.row.ng-pristine.ng-valid {
+  margin-left: 2em;
+  margin-right: 2em;
+  background-color: #333333;
+  border-radius: 1em;
+  padding: 1em;
+  border: none;
+}
+
+#add-snip-submit {
+  border: none;
+}
+
+a.cancel-button.col-xs-3 {
+  border:1px solid $link-blue-dark;
+  margin-top: 1em;
+  padding-top: .50em;
+  padding-bottom: .5em;
+  border-radius: 1em;
+  text-align: center;
+  top: 1em;
+  color: white;
+  width: 10%;
+  &:hover {
+    background-color: #e00c0c;
+    border: 1px solid #E00C0C;
+    cursor: pointer;
+    text-decoration: none;
+  }
 }
